@@ -5,6 +5,8 @@ var express   = require("express"),
   Campground  = require('./models/campground'),
   seedDB      = require("./seeds");
 
+seedDB();
+
 mongoose.connect("mongodb://localhost:27017/yelpcamp", {
   useMongoClient: true
 });
