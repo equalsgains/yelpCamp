@@ -74,7 +74,7 @@ app.get("/campgrounds/new", function(req, res) {
 // SHOW - SHOWS MORE INFO ABOUT ONE CAMPGROUND
 app.get("/campgrounds/:id", function(req, res){
     // FIND THE campground WITH PROVIDED ID
-    Campground.findById(req.params.id, function(err, foundCampground){
+    Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
         if (err) {
             console.log("error");
         }   else {
