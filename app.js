@@ -1,14 +1,13 @@
 var express     = require("express"),
-  app           = express(),
-  bodyParser    = require("body-parser"),
-  mongoose      = require("mongoose"),
-  passport      = require("passport"),
-  LocalSrategy  = require("passport-local"),
-  passportLocalMongoose = require("passport-local-mongoose"),
-  Campground    = require('./models/campground'),
-  Comment       = require("./models/comment"),
-  User          = require("./models/user"),
-  seedDB        = require("./seeds");
+    app         = express(),
+    bodyParser  = require("body-parser"),
+    mongoose    = require("mongoose"),
+    passport    = require("passport"),
+    LocalStrategy = require("passport-local"),
+    Campground  = require("./models/campground"),
+    Comment     = require("./models/comment"),
+    User        = require("./models/user"),
+    seedDB      = require("./seeds");
 
 
 mongoose.connect("mongodb://localhost:27017/yelpcamp");
@@ -19,18 +18,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 seedDB();
-// passport configuration
+// PASSPORT CONFIGURATION
 app.use(require("express-session")({
-  secret: "whatever we want!",
+  secret: "Once again Rusty wins cutest dog!",
   resave: false,
   saveUninitialized: false
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalSrategy(User.authenticate()));
+passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
 
 // Campground.create(
 //   {
@@ -155,6 +153,18 @@ app.post("/register", function(req, res){
       res.redirect("/campgrounds");
     });
   });
+});
+
+// show login form
+app.get("/login", function(req, res){
+  res.render("login");
+});
+// handle login logic
+app.post("/login", passport.authenticate("local", 
+    {
+        successRedirect: "/campgrounds",
+        failureRedirect: "/login"
+    }), function(req, res){
 });
 
 app.listen(3000, function() {
