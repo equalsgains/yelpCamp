@@ -21,7 +21,7 @@ mongoose.connection.once("open", () => {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
-seedDB();
+// seedDB(); seeds data
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
   secret: "Once again Rusty wins cutest dog!",
@@ -41,7 +41,7 @@ app.use(function(req, res, next){
 
 app.use("/", authRoutes);
 app.use("/campgrounds",campgroundRoutes);
-app.use("campgrounds/:id/comments", commentRoutes);
+app.use("/campgrounds/:id/comments", commentRoutes);
 
 app.listen(3000, function() {
   console.log("server's running!");

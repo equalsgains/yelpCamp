@@ -11,34 +11,34 @@ var data = [
 function seedDB() {
     // Remove all campgrounds
     Campground.remove({}, function (err) {
-        if (err) {
-            console.log(err);
-        }
-        // Add a few campgrounds
-        data.forEach(function (seed) {
-            Campground.create(seed, function (err, campground) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log("added campground");
-                    //Create a comment
-                    Comment.create(
-                        {
-                            text: "this place is great, but the wifi is slow",
-                            author: "Naruto"
-                        }, function (err, comment) {
-                            if(err){
-                                console.log(err);
-                            } else {
-                                campground.comments.push(comment._id);
-                                campground.save();
-                                console.log("Created new comment");
-                            }
+        // if (err) {
+        //     console.log(err);
+        // }
+        // // Add a few campgrounds
+        // data.forEach(function (seed) {
+        //     Campground.create(seed, function (err, campground) {
+        //         if (err) {
+        //             console.log(err);
+        //         } else {
+        //             console.log("added campground");
+        //             //Create a comment
+        //             Comment.create(
+        //                 {
+        //                     text: "this place is great, but the wifi is slow",
+        //                     author: "Naruto"
+        //                 }, function (err, comment) {
+        //                     if(err){
+        //                         console.log(err);
+        //                     } else {
+        //                         campground.comments.push(comment._id);
+        //                         campground.save();
+        //                         console.log("Created new comment");
+        //                     }
                             
-                        })
-                }
-            })
-        });
+        //                 })
+        //         }
+        //     })
+        // });
     });
 }
 
