@@ -7,7 +7,8 @@ var express     = require("express"),
     Campground  = require("./models/campground"),
     Comment     = require("./models/comment"),
     User        = require("./models/user"),
-    seedDB      = require("./seeds");
+    seedDB      = require("./seeds"),
+    methodOverride = require("method-override");
 
 var commentRoutes = require("./routes/comments"),
     campgroundRoutes = require("./routes/campgrounds"),
@@ -21,8 +22,9 @@ mongoose.connection.once("open", () => {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
-seedDB();
+// seedDB(); 
 // PASSPORT CONFIGURATION
+app.use(methodOverride("_method"));
 app.use(require("express-session")({
   secret: "Once again Rusty wins cutest dog!",
   resave: false,
@@ -41,7 +43,7 @@ app.use(function(req, res, next){
 
 app.use("/", authRoutes);
 app.use("/campgrounds",campgroundRoutes);
-app.use(commentRoutes);
+app.use("/campgrounds/:id/comments", commentRoutes);
 
 app.listen(3000, function() {
   console.log("server's running!");
