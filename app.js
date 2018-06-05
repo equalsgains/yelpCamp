@@ -41,7 +41,7 @@ app.use(function(req, res, next){
 
 app.use("/", authRoutes);
 app.use("/campgrounds",campgroundRoutes);
-app.use("campgrounds/:id/comments", commentRoutes);
+app.use(commentRoutes);
 
 app.listen(3000, function() {
   console.log("server's running!");
