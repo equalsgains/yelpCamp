@@ -6,7 +6,7 @@ var Comment = require("../models/comment");
 // comments routes
 //================
 
-router.get("/campgrounds/:id/comments/new", isLoggedIn, function(req, res){
+router.get("/new", isLoggedIn, function(req, res){
     // find campground by id
       Campground.findById(req.params.id, function(err, campground){
         if(err){
@@ -18,7 +18,7 @@ router.get("/campgrounds/:id/comments/new", isLoggedIn, function(req, res){
       });
   });
   
-  router.post("/campgrounds/:id/comments", isLoggedIn, function(req, res){
+  router.post("/", isLoggedIn, function(req, res){
     // look up campground using id
     Campground.findById(req.params.id, function(err, campground){
       if(err){
