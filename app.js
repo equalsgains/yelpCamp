@@ -7,7 +7,8 @@ var express     = require("express"),
     Campground  = require("./models/campground"),
     Comment     = require("./models/comment"),
     User        = require("./models/user"),
-    seedDB      = require("./seeds");
+    seedDB      = require("./seeds"),
+    methodOverride = require("method-override");
 
 var commentRoutes = require("./routes/comments"),
     campgroundRoutes = require("./routes/campgrounds"),
@@ -23,6 +24,7 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 // seedDB(); seeds data
 // PASSPORT CONFIGURATION
+app.use(methodOverride("_method"));
 app.use(require("express-session")({
   secret: "Once again Rusty wins cutest dog!",
   resave: false,

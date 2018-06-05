@@ -1,5 +1,5 @@
 var express = require("express");
-var router = express.Router({mergeParams: true});
+var router = express.Router({ mergeParams: true });
 var Campground = require("../models/campground");
 
 // Campground.create(
@@ -37,8 +37,13 @@ router.post("/", isLoggedIn, function(req, res) {
   var author = {
     id: req.user._id,
     username: req.user.username
-  }
-  var newCampground = { name: name, image: image, description: description, author: author };
+  };
+  var newCampground = {
+    name: name,
+    image: image,
+    description: description,
+    author: author
+  };
   Campground.create(newCampground, function(err, newlyCreated) {
     if (err) {
       console.log("error");
@@ -53,20 +58,35 @@ router.get("/new", isLoggedIn, function(req, res) {
   res.render("campgrounds/new");
 });
 // SHOW - SHOWS MORE INFO ABOUT ONE CAMPGROUND
-router.get("/:id", function(req, res){
-    // FIND THE campground WITH PROVIDED ID
-    Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
-        if (err) {
-            console.log("error");
-        }   else {
-            res.render("campgrounds/show", {campground: foundCampground});
-        }
+router.get("/:id", function(req, res) {
+  // FIND THE campground WITH PROVIDED ID
+  Campground.findById(req.params.id)
+    .populate("comments")
+    .exec(function(err, foundCampground) {
+      if (err) {
+        console.log("error");
+      } else {
+        res.render("campgrounds/show", { campground: foundCampground });
+      }
     });
-
 });
 
-function isLoggedIn(req, res, next){
-  if(req.isAuthenticated()){
+// EDIT CAMPGROUND
+
+router.get("/:id/edit", function(req, res) {
+  Campground.findById(req.params.id, function(err, foundCampground) {
+    if (err) {
+      res.redirect("/campgrounds");
+    } else {
+      res.render("campgrounds/edit", { campground: foundCampground });
+    }
+  });
+});
+
+// UPDATE CAMPGROUND
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
     return next();
   }
   res.redirect("/login");
