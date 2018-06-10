@@ -8,7 +8,8 @@ var express     = require("express"),
     Comment     = require("./models/comment"),
     User        = require("./models/user"),
     seedDB      = require("./seeds"),
-    methodOverride = require("method-override");
+    methodOverride = require("method-override"),
+    flash       = require("connect-flash");
 
 var commentRoutes = require("./routes/comments"),
     campgroundRoutes = require("./routes/campgrounds"),
@@ -22,6 +23,8 @@ mongoose.connection.once("open", () => {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+app.use(flash());
+
 // seedDB(); 
 // PASSPORT CONFIGURATION
 app.use(methodOverride("_method"));
